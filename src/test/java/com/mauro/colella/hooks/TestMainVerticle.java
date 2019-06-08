@@ -1,4 +1,4 @@
-package com.mauro.colella.hooks;
+package com.mauro.colella.server;
 
 import io.vertx.core.Vertx;
 import io.vertx.junit5.VertxExtension;
