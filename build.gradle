@@ -30,6 +30,7 @@ dependencies {
   implementation "io.vertx:vertx-web:$vertxVersion"
   implementation "io.vertx:vertx-web-graphql:$vertxVersion"
   implementation "io.vertx:vertx-web-graphql:$vertxVersion"
+  implementation "io.github.cdimascio:java-dotenv:5.1.0"
 
   testImplementation "io.vertx:vertx-junit5:$vertxVersion"
   testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitJupiterEngineVersion"

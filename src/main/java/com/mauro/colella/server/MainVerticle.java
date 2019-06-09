@@ -9,12 +9,15 @@ import io.vertx.ext.web.handler.graphql.GraphQLHandlerOptions;
 import io.vertx.ext.web.handler.graphql.GraphiQLOptions;
 
 import graphql.GraphQL;
+import io.github.cdimascio.dotenv.Dotenv;
 
 public class MainVerticle extends AbstractVerticle {
 
   @Override
   public void start(Future<Void> startFuture) throws Exception {
-	// Create a router object.
+    // Create a router object.
+    Dotenv dotenv = Dotenv.load();
+
     Router router = Router.router(vertx);
     API api = new API();
 
