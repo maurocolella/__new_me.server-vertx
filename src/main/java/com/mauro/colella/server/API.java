@@ -17,13 +17,16 @@ import graphql.ExecutionResult;
 import static graphql.schema.idl.RuntimeWiring.newRuntimeWiring;
 // import org.apache.commons.text.StringEscapeUtils;
 
+import java.io.File;
+import java.io.FileReader;
+
 public class API {
   private GraphQLSchema schema = null;
   private GraphQL graphQL = null;
   // private String baseUrl = "/";
 
   public API() {
-    String schemaDefinition = "type Query{hello: String}";
+    File schemaDefinition = loadSchema("resources/schema.graphqls");
 
     SchemaParser schemaParser = new SchemaParser();
     TypeDefinitionRegistry typeDefinitionRegistry = schemaParser.parse(schemaDefinition);
@@ -47,5 +50,14 @@ public class API {
     return GraphQLHandler.create(this.graphQL, graphQLOptions);
   }
 
-
+  private File loadSchema(String path) {
+    File file = null;
+    try {
+      file = new File(path);
+    }
+    catch (Exception e) {
+      e.printStackTrace();
+    }
+    return file;
+  }
 }
