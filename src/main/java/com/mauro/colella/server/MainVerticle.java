@@ -4,9 +4,7 @@ import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Future;
 import io.vertx.ext.web.Router;
 import io.vertx.core.http.HttpServerResponse;
-import io.vertx.ext.web.handler.graphql.GraphQLHandler;
-import io.vertx.ext.web.handler.graphql.GraphQLHandlerOptions;
-import io.vertx.ext.web.handler.graphql.GraphiQLOptions;
+
 
 import graphql.GraphQL;
 import io.github.cdimascio.dotenv.Dotenv;
@@ -21,14 +19,7 @@ public class MainVerticle extends AbstractVerticle {
     Router router = Router.router(vertx);
     API api = new API();
 
-    GraphQL graphQL = GraphQL.newGraphQL(api.getSchema()).build();
-    GraphQLHandlerOptions graphQLOptions = new GraphQLHandlerOptions()
-      .setGraphiQLOptions(new GraphiQLOptions()
-        .setEnabled(true)
-        .setGraphQLUri("\"/\"") // <-- ?
-      );
-
-    router.route("/").handler(GraphQLHandler.create(graphQL, graphQLOptions));
+    router.route("/").handler(api.getHandler());
 
     vertx.createHttpServer().requestHandler(router::accept)
     .listen(8888, http -> {

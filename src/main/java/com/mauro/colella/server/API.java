@@ -8,12 +8,19 @@ import graphql.schema.idl.SchemaGenerator;
 import graphql.schema.idl.SchemaParser;
 import graphql.schema.idl.TypeDefinitionRegistry;
 
+import io.vertx.ext.web.handler.graphql.GraphQLHandler;
+import io.vertx.ext.web.handler.graphql.GraphQLHandlerOptions;
+import io.vertx.ext.web.handler.graphql.GraphiQLOptions;
+
 import graphql.ExecutionResult;
 
 import static graphql.schema.idl.RuntimeWiring.newRuntimeWiring;
+// import org.apache.commons.text.StringEscapeUtils;
 
 public class API {
   private GraphQLSchema schema = null;
+  private GraphQL graphQL = null;
+  // private String baseUrl = "/";
 
   public API() {
     String schemaDefinition = "type Query{hello: String}";
@@ -27,9 +34,18 @@ public class API {
 
     SchemaGenerator schemaGenerator = new SchemaGenerator();
     this.schema = schemaGenerator.makeExecutableSchema(typeDefinitionRegistry, runtimeWiring);
+    this.graphQL = GraphQL.newGraphQL(this.schema).build();
   }
 
-  public GraphQLSchema getSchema() {
-    return this.schema;
+  public GraphQLHandler getHandler() {
+    GraphQLHandlerOptions graphQLOptions = new GraphQLHandlerOptions()
+      .setGraphiQLOptions(new GraphiQLOptions()
+        .setEnabled(true)
+        .setGraphQLUri("\"/\"") // <-- ? "\"/\"" StringEscapeUtils.escapeJava(baseUrl)
+      );
+
+    return GraphQLHandler.create(this.graphQL, graphQLOptions);
   }
+
+
 }
